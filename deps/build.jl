@@ -19,3 +19,9 @@
 	run(`"$JULIA_HOME\\7z.exe" e "$dstFile" *.dll -o"$dstDir" -y`)
 	rm(dstFile)
 end
+
+@linux_only begin
+    run(`sudo apt-get install libdevil1c2`)
+end
+
+
