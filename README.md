@@ -33,3 +33,7 @@ ilDeleteImage(ilGetInteger(IL_CUR_IMAGE))
 # when we're done with the library
 ilShutDown()
 ```
+
+## Contacts & Issues
+
+For problems with the Julia binding, please visit https://github.com/JuliaGL/DevIL.jl
