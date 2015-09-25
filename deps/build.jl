@@ -20,22 +20,17 @@
 	rm(dstFile)
 end
 
-println("jo")
 using BinDeps
-println("jo")
 @BinDeps.setup
-println("jo")
 
 libnames = ["devil", "libdevil1c2"]
 libdevil = library_dependency("devil")
-println("jo")
 
 @linux_only begin
     provides(AptGet, "libdevil1c2", libdevil)
     provides(Pacman, "devil", libdevil)
     provides(Yum, "DevIL", libdevil)
 end
-println("jo2")
 
 @osx_only begin
     if Pkg.installed("Homebrew") === nothing
@@ -44,7 +39,6 @@ println("jo2")
     using Homebrew
     provides(Homebrew.HB, "devil", libdevil, os = :Darwin)
 end
-println("jo222")
 
 @BinDeps.install Dict([(:libdevil, :libdevil)])
 
