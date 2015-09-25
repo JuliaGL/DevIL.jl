@@ -20,8 +20,27 @@
 	rm(dstFile)
 end
 
+@unix_only begin
+using BinDeps
+@BinDeps.setup
+
+libnames = ["devil", "libdevil1c2"]
+libdevil = library_dependency("devil")
+
 @linux_only begin
-    run(`sudo apt-get install libdevil1c2`)
+    provides(AptGet, "libdevil1c2", libdevil)
+    provides(Pacman, "devil", libdevil)
+    provides(Yum, "DevIL", libdevil)
 end
 
+@osx_only begin
+    if Pkg.installed("Homebrew") === nothing
+        error("Homebrew package not installed, please run Pkg.add(\"Homebrew\")")
+    end
+    using Homebrew
+    provides(Homebrew.HB, "devil", libdevil, os = :Darwin)
+end
 
+@BinDeps.install Dict([(:libdevil, :libdevil)])
+
+end
