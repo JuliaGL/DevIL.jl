@@ -8,6 +8,9 @@ julia:
 notifications:
   email: false
 # uncomment the following lines to override the default test script
+apt:
+    packages:
+    - libdevil1c2
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
   - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("DevIL"); Pkg.test("DevIL"; coverage=true)'

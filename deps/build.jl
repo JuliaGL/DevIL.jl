@@ -23,12 +23,12 @@ end
 using BinDeps
 @BinDeps.setup
 
-libnames = ["devil", "libdevil1c2"]
+libnames = ["devil", "libdevil1c2", "libdevil-dev"]
 libdevil = library_dependency("devil")
 
 @linux_only begin
     provides(AptGet, "libdevil1c2", libdevil)
-    provides(Pacman, "devil", libdevil)
+    provides(Pacman, "libdevil-dev", libdevil)
     provides(Yum, "DevIL", libdevil)
 end
 
