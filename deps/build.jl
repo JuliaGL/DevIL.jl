@@ -7,7 +7,7 @@
 		srcUrl = "http://downloads.sourceforge.net/project/openil/DevIL%20Win32/1.7.8/DevIL-EndUser-x86-1.7.8.zip?r=&amp;ts=$(int(time()))&amp;use_mirror=auto_select"
 		fileName = "DevIL-EndUser-x86-1.7.8.zip"
 	else
-		error("DevIL: Unsupported Windows architecture")
+		error("DevIL: Unsupported Windows architecture: $(Sys.ARCH)")
 	end
 	
 	dstDir = Pkg.dir("DevIL", "deps", string(Sys.ARCH))
