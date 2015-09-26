@@ -2,8 +2,7 @@ VERSION >= v"0.4.0-dev+6641" && __precompile__()
 
 module DevIL
 
-const libIL = find_library(["libIL", "DevIL"], 
-                           ["/usr/lib/x86_64-linux-gnu", Pkg.dir("DevIL", "deps", string(Sys.ARCH))])
+include(joinpath("..", "deps", "deps.jl"))
 
 # Stolen from getCFun macro
 macro ilFunc(cFun)
@@ -22,7 +21,7 @@ macro ilFunc(cFun)
     # Construct the result.
 	cName     = cFun.args[1].args[1]
 	cSym      = Expr(:quote, cName)
-	symAndLib = :($cSym, $libIL)
+	symAndLib = :($cSym, $libdevil)
 
     body       = Expr(:ccall, symAndLib, returnType, Expr(:tuple, inputTypes...), argumentNames...)
     func       = Expr(:function, Expr(:call, cName, argumentNames...), body)

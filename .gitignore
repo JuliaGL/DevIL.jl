@@ -1,3 +1,5 @@
 *.jl.cov
 *.jl.mem
 deps/x86*
+*.dll
+deps/deps.jl
