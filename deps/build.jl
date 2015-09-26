@@ -1,9 +1,9 @@
 @windows_only begin
-	if Sys.ARCH == :x86_64
+	if WORD_SIZE == 32
 		# 64-bit version is not available in an end-user package, so we download the SDK
 		srcUrl = "http://downloads.sourceforge.net/project/openil/DevIL%20Windows%20SDK/1.7.8/DevIL-SDK-x64-1.7.8.zip?r=&amp;ts=$(int(time()))&amp;use_mirror=auto_select"
 		fileName = "DevIL-SDK-x64-1.7.8.zip"
-	elseif Sys.ARCH == :x86
+	elseif WORD_SIZE == 64
 		srcUrl = "http://downloads.sourceforge.net/project/openil/DevIL%20Win32/1.7.8/DevIL-EndUser-x86-1.7.8.zip?r=&amp;ts=$(int(time()))&amp;use_mirror=auto_select"
 		fileName = "DevIL-EndUser-x86-1.7.8.zip"
 	else
@@ -19,6 +19,7 @@
 	run(`"$JULIA_HOME\\7z.exe" e "$dstFile" *.dll -o"$dstDir" -y`)
 	rm(dstFile)
 end
+
 
 using BinDeps
 @BinDeps.setup
