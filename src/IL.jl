@@ -13,7 +13,7 @@ typealias ILclampf		Cfloat
 typealias ILdouble		Cdouble
 typealias ILclampd		Cdouble
 typealias ILint64		Int64
-typealias ILuint64		Uint64
+typealias ILuint64		UInt64
 
 typealias ILchar 			Cchar
 typealias ILstring 			Ptr{Cchar}

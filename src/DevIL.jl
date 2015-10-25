@@ -1,7 +1,7 @@
 module DevIL
 
-const libIL = find_library(["libIL", "DevIL"], 
-                           ["/usr/lib/x86_64-linux-gnu", Pkg.dir("DevIL", "deps", string(Sys.ARCH))])
+const libIL = Libdl.find_library(["libIL", "DevIL"], 
+                                 ["/usr/lib/x86_64-linux-gnu", Pkg.dir("DevIL", "deps", string(Sys.ARCH))])
 
 # Stolen from getCFun macro
 macro ilFunc(cFun)
