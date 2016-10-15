@@ -1,3 +1,5 @@
+__precompile__()
+
 module DevIL
 
 const libIL = Libdl.find_library(["libIL", "DevIL"], 
