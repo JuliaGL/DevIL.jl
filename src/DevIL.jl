@@ -1,6 +1,8 @@
+__precompile__()
+
 module DevIL
 
-const libIL = Libdl.find_library(["libIL", "DevIL"], 
+const libIL = Libdl.find_library(["libIL", "DevIL"],
                                  ["/usr/lib/x86_64-linux-gnu", Pkg.dir("DevIL", "deps", string(Sys.ARCH))])
 
 # Stolen from getCFun macro
@@ -26,7 +28,7 @@ macro ilFunc(cFun)
     func       = Expr(:function, Expr(:call, cName, argumentNames...), body)
 	exportExpr = Expr(:export, cName)
 	ret        = Expr(:block, func, exportExpr)
-	
+
     return esc(ret)
 end
 
@@ -34,7 +36,7 @@ macro ilConst(assignment)
 	constExpr  = Expr(:const, assignment)
 	exportExpr = Expr(:export, assignment.args[1])
 	ret        = Expr(:block, constExpr, exportExpr)
-	
+
 	return esc(ret)
 end
 
