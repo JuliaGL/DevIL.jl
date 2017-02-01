@@ -35,4 +35,7 @@ end
     provides(Yum, "DevIL", libdevil)
 end
 
-@BinDeps.install Dict("devil" => "libdevil")
+function main()
+    @BinDeps.install Dict("devil" => "libdevil")
+end
+main() # move in function to get better stack traces
