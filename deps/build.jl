@@ -1,50 +1,43 @@
 using Compat
-@windows_only using ZipFile
-@windows_only begin
-	t = round(Int, time())
-	if WORD_SIZE == 64
-		# 64-bit version is not available in an end-user package, so we download the SDK
-		srcUrl = "http://downloads.sourceforge.net/project/openil/DevIL%20Windows%20SDK/1.7.8/DevIL-SDK-x64-1.7.8.zip?r=&amp;ts=$(t)&amp;use_mirror=auto_select"
-	elseif WORD_SIZE == 32
-		srcUrl = "http://downloads.sourceforge.net/project/openil/DevIL%20Win32/1.7.8/DevIL-EndUser-x86-1.7.8.zip?r=&amp;ts=$(t)&amp;use_mirror=auto_select"
-	else
-		error("DevIL: Unsupported Windows architecture: $(Sys.ARCH)")
-	end
-	zipped_lib = download(srcUrl)
-	library_dir = Pkg.dir("DevIL", "deps", "bin")
-	isdir(library_dir) || mkdir(library_dir)
-	zr = ZipFile.Reader(zipped_lib)
-	lib_name = ""
-	for file in zr.files #uncompress
-		filename = basename(file.name)
-		if splitext(filename)[2] == ".dll"
-			contains(lowercase(filename), "devil") && (lib_name = filename)
-			open(joinpath(library_dir, filename), "w") do io
-				write(io, readall(file))
-			end
-		end
-	end
-    library_name  = joinpath(library_dir, lib_name)
-	open("deps.jl", "w") do io
-		println(io, "const libdevil = \"$(escape_string(library_name))\"")
-	end
+
+if is_windows()
+    ts = floor(Int, time())
+    if Sys.ARCH == :x86_64
+        # 64-bit version is not available in an end-user package, so we download the SDK
+        srcUrl = "http://downloads.sourceforge.net/project/openil/DevIL%20Windows%20SDK/1.7.8/DevIL-SDK-x64-1.7.8.zip?r=&amp;ts=$ts&amp;use_mirror=auto_select"
+        fileName = "DevIL-SDK-x64-1.7.8.zip"
+    elseif Sys.ARCH == :x86
+        srcUrl = "http://downloads.sourceforge.net/project/openil/DevIL%20Win32/1.7.8/DevIL-EndUser-x86-1.7.8.zip?r=&amp;ts=$ts&amp;use_mirror=auto_select"
+        fileName = "DevIL-EndUser-x86-1.7.8.zip"
+    else
+        error("DevIL: Unsupported Windows architecture")
+    end
+    dstDir = joinpath(dirname(@__FILE__), string(Sys.ARCH))
+    isdir(dstDir) || mkdir(dstDir)
+    dstFile = dstDir * "\\" * fileName
+    download(srcUrl, dstFile)
+    run(`"$JULIA_HOME\\7z.exe" e "$dstFile" *.dll -o"$dstDir" -y`)
+    rm(dstFile)
+    library_name = joinpath(dstDir, "DevIL.dll")
+    open("deps.jl", "w") do io
+        println(io, "const libdevil = \"$(escape_string(library_name))\"")
+    end
 end
 
-
-@unix_only using BinDeps
-@unix_only @BinDeps.setup
-@unix_only begin
-libnames = ["devil", "libdevil1c2", "libdevil-dev"]
-libdevil = library_dependency("devil")
+@static if is_unix()
+    using BinDeps
+    @BinDeps.setup
+    libnames = ["devil", "libdevil1c2", "libdevil-dev"]
+    libdevil = library_dependency("devil")
 end
 
-@linux_only begin
+@static if is_linux()
     provides(AptGet, "libdevil1c2", libdevil)
     provides(Pacman, "libdevil-dev", libdevil)
     provides(Yum, "DevIL", libdevil)
 end
 
-@osx_only begin
+@static if is_apple()
     if Pkg.installed("Homebrew") === nothing
         error("Homebrew package not installed, please run Pkg.add(\"Homebrew\")")
     end
@@ -52,5 +45,6 @@ end
     provides(Homebrew.HB, "devil", libdevil, os = :Darwin)
 end
 
-@unix_only @BinDeps.install Dict([(:libdevil, :libdevil)])
-
+@static if is_unix()
+    @BinDeps.install Dict([(:libdevil, :libdevil)])
+end
