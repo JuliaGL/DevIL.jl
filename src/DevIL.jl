@@ -1,9 +1,6 @@
-VERSION >= v"0.4.0-dev+6641" && __precompile__()
-
+__precompile__()
 module DevIL
-
 include(joinpath("..", "deps", "deps.jl"))
-
 # Stolen from getCFun macro
 macro ilFunc(cFun)
     arguments = map(cFun.args[1].args[2:end]) do arg
@@ -21,13 +18,13 @@ macro ilFunc(cFun)
     # Construct the result.
 	cName     = cFun.args[1].args[1]
 	cSym      = Expr(:quote, cName)
-	symAndLib = :($cSym, $libdevil)
+	symAndLib = :($cSym, libdevil)
 
     body       = Expr(:ccall, symAndLib, returnType, Expr(:tuple, inputTypes...), argumentNames...)
     func       = Expr(:function, Expr(:call, cName, argumentNames...), body)
 	exportExpr = Expr(:export, cName)
 	ret        = Expr(:block, func, exportExpr)
-	
+
     return esc(ret)
 end
 
@@ -35,7 +32,7 @@ macro ilConst(assignment)
 	constExpr  = Expr(:const, assignment)
 	exportExpr = Expr(:export, assignment.args[1])
 	ret        = Expr(:block, constExpr, exportExpr)
-	
+
 	return esc(ret)
 end
 

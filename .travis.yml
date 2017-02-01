@@ -4,16 +4,12 @@ os:
   - linux
   - osx
 julia:
-  - release
+  - 0.5
   - nightly
 notifications:
   email: false
-# uncomment the following lines to override the default test script
-apt:
-    packages:
-    - libdevil1c2
-script:
-  - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia --check-bounds=yes -e 'Pkg.clone(pwd()); Pkg.build("DevIL"); Pkg.test("DevIL"; coverage=true)'
 after_success:
-  - julia -e 'cd(Pkg.dir("DevIL")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(process_folder()); Codecov.submit(process_folder())'
+  # push coverage results to Coveralls
+  - julia -e 'cd(Pkg.dir("DevIL")); Pkg.add("Coverage"); using Coverage; Coveralls.submit(Coveralls.process_folder())'
+  # push coverage results to Codecov
+  - julia -e 'cd(Pkg.dir("DevIL")); Pkg.add("Coverage"); using Coverage; Codecov.submit(Codecov.process_folder())'

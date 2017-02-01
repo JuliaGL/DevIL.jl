@@ -1,5 +1,3 @@
-using Compat
-
 if is_windows()
     ts = floor(Int, time())
     if Sys.ARCH == :x86_64
