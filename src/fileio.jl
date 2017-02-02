@@ -104,8 +104,9 @@ function getimage()
     h = Int(ilGetInteger(IL_IMAGE_HEIGHT))
     frames = Int(ilGetInteger(IL_NUM_IMAGES))
     ctype, dcolor, dpix = colortype()
-    size = frames == 0 ? (h, w) : (h, w, frames)
+    size = frames == 0 ? (w, h) : (w, h, frames)
     image = Array(ctype, size)
-    ilCopyPixels(0, 0, 0, h, w, 1, dcolor, dpix, image)
+    # TODO return axis array for spatial order, xy?!
+    ilCopyPixels(0, 0, 0, w, h, 1, dcolor, dpix, image)
     image
 end
