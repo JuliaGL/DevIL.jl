@@ -1,6 +1,6 @@
 using BinDeps
 @BinDeps.setup
-libnames = ["devil", "libdevil1c2", "libdevil-dev", "DevIL"]
+libnames = ["devil", "libdevil1c2", "libdevil-dev", "DevIL", "libIL", "libIL.so.1"]
 libdevil = library_dependency("libdevil", aliases = libnames)
 
 # get library through Homebrew, if available
@@ -30,7 +30,7 @@ end
 end
 
 @static if is_linux()
-    provides(AptGet, "libdevil1c2", libdevil)
+    provides(AptGet, "libdevil-dev", libdevil)
     provides(Pacman, "libdevil-dev", libdevil)
     provides(Yum, "DevIL", libdevil)
 end
