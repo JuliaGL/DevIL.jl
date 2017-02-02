@@ -1,7 +1,7 @@
 __precompile__()
 module DevIL
 
-using FixedPointNumbers, ColorTypes
+using FixedPointNumbers, ColorTypes, ImageCore
 
 include(joinpath("..", "deps", "deps.jl"))
 # Stolen from getCFun macro

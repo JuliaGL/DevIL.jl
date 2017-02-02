@@ -150,36 +150,37 @@ export ILenum, ILboolean, ILbitfield, ILbyte, ILshort, ILint, ILsizei, ILubyte, 
 
 
 # Error Types
-@ilConst IL_NO_ERROR             = 0x0000
-@ilConst IL_INVALID_ENUM         = 0x0501
-@ilConst IL_OUT_OF_MEMORY        = 0x0502
-@ilConst IL_FORMAT_NOT_SUPPORTED = 0x0503
-@ilConst IL_INTERNAL_ERROR       = 0x0504
-@ilConst IL_INVALID_VALUE        = 0x0505
-@ilConst IL_ILLEGAL_OPERATION    = 0x0506
-@ilConst IL_ILLEGAL_FILE_VALUE   = 0x0507
-@ilConst IL_INVALID_FILE_HEADER  = 0x0508
-@ilConst IL_INVALID_PARAM        = 0x0509
-@ilConst IL_COULD_NOT_OPEN_FILE  = 0x050A
-@ilConst IL_INVALID_EXTENSION    = 0x050B
-@ilConst IL_FILE_ALREADY_EXISTS  = 0x050C
-@ilConst IL_OUT_FORMAT_SAME      = 0x050D
-@ilConst IL_STACK_OVERFLOW       = 0x050E
-@ilConst IL_STACK_UNDERFLOW      = 0x050F
-@ilConst IL_INVALID_CONVERSION   = 0x0510
-@ilConst IL_BAD_DIMENSIONS       = 0x0511
-@ilConst IL_FILE_READ_ERROR      = 0x0512  # 05/12/2002: Addition by Sam.
-@ilConst IL_FILE_WRITE_ERROR     = 0x0512
+@enum(ILerror,
+    IL_NO_ERROR             = 0x0000,
+    IL_INVALID_ENUM         = 0x0501,
+    IL_OUT_OF_MEMORY        = 0x0502,
+    IL_FORMAT_NOT_SUPPORTED = 0x0503,
+    IL_INTERNAL_ERROR       = 0x0504,
+    IL_INVALID_VALUE        = 0x0505,
+    IL_ILLEGAL_OPERATION    = 0x0506,
+    IL_ILLEGAL_FILE_VALUE   = 0x0507,
+    IL_INVALID_FILE_HEADER  = 0x0508,
+    IL_INVALID_PARAM        = 0x0509,
+    IL_COULD_NOT_OPEN_FILE  = 0x050A,
+    IL_INVALID_EXTENSION    = 0x050B,
+    IL_FILE_ALREADY_EXISTS  = 0x050C,
+    IL_OUT_FORMAT_SAME      = 0x050D,
+    IL_STACK_OVERFLOW       = 0x050E,
+    IL_STACK_UNDERFLOW      = 0x050F,
+    IL_INVALID_CONVERSION   = 0x0510,
+    IL_BAD_DIMENSIONS       = 0x0511,
+    IL_FILE_READ_WRITE_ERROR= 0x0512,  # 05/12/2002: Addition by Sam.
+    #IL_FILE_WRITE_ERROR     = 0x0512,
 
-@ilConst IL_LIB_GIF_ERROR  = 0x05E1
-@ilConst IL_LIB_JPEG_ERROR = 0x05E2
-@ilConst IL_LIB_PNG_ERROR  = 0x05E3
-@ilConst IL_LIB_TIFF_ERROR = 0x05E4
-@ilConst IL_LIB_MNG_ERROR  = 0x05E5
-@ilConst IL_LIB_JP2_ERROR  = 0x05E6
-@ilConst IL_LIB_EXR_ERROR  = 0x05E7
-@ilConst IL_UNKNOWN_ERROR  = 0x05FF
-
+    IL_LIB_GIF_ERROR  = 0x05E1,
+    IL_LIB_JPEG_ERROR = 0x05E2,
+    IL_LIB_PNG_ERROR  = 0x05E3,
+    IL_LIB_TIFF_ERROR = 0x05E4,
+    IL_LIB_MNG_ERROR  = 0x05E5,
+    IL_LIB_JP2_ERROR  = 0x05E6,
+    IL_LIB_EXR_ERROR  = 0x05E7,
+    IL_UNKNOWN_ERROR  = 0x05FF
+)
 
 # Origin Definitions
 @ilConst IL_ORIGIN_SET        = 0x0600
@@ -416,7 +417,7 @@ IL_SAVEPROC(f::Function)	= cfunction(f, ILenum, (ILconst_string,))
 @ilFunc ilGetBooleanv(Mode::ILenum, Param::Ptr{ILboolean})::Void
 @ilFunc ilGetData()::Ptr{ILubyte}
 @ilFunc ilGetDXTCData(Buffer::Ptr{Void}, BufferSize::ILuint, DXTCFormat::ILenum)::ILuint
-@ilFunc ilGetError()::ILenum
+@ilFunc ilGetError()::ILerror
 @ilFunc ilGetInteger(Mode::ILenum)::ILint
 @ilFunc ilGetIntegerv(Mode::ILenum, Param::Ptr{ILint})::Void
 @ilFunc ilGetLumpPos()::ILuint
