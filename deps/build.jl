@@ -9,7 +9,7 @@ libdevil = library_dependency("libdevil", aliases = libnames)
         error("Homebrew package not installed, please run Pkg.add(\"Homebrew\")")
     end
     using Homebrew
-    provides(Homebrew.HB, "libdevil", libdevil, os = :Darwin)
+    provides(Homebrew.HB, "devil", libdevil, os = :Darwin)
 end
 
 # download a pre-compiled binary (built by GLFW)
@@ -30,9 +30,9 @@ end
 end
 
 @static if is_linux()
-    provides(AptGet, "libdevil", libdevil)
-    provides(Pacman, "libdevil", libdevil)
-    provides(Yum, "libdevil", libdevil)
+    provides(AptGet, "libdevil1c2", libdevil)
+    provides(Pacman, "libdevil-dev", libdevil)
+    provides(Yum, "DevIL", libdevil)
 end
 
 function main()
