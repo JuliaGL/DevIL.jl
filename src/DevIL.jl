@@ -1,5 +1,8 @@
 __precompile__()
 module DevIL
+
+using FixedPointNumbers, ColorTypes
+
 include(joinpath("..", "deps", "deps.jl"))
 # Stolen from getCFun macro
 macro ilFunc(cFun)
@@ -37,5 +40,11 @@ macro ilConst(assignment)
 end
 
 include("IL.jl")
+include("fileio.jl")
+
+function __init__()
+    ilInit()
+    atexit(ilShutDown)
+end
 
 end # module

@@ -1,5 +1,1 @@
-using DevIL
-
-ilInit()
-
-ilBindImage(ilGenImage())
+using DevIL, TestImages

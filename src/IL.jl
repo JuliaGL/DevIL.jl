@@ -28,7 +28,7 @@ export ILenum, ILboolean, ILbitfield, ILbyte, ILshort, ILint, ILsizei, ILubyte, 
 #! Data formats \link Formats Formats\endlink
 @ilConst IL_COLOUR_INDEX     = 0x1900
 @ilConst IL_COLOR_INDEX      = 0x1900
-@ilConst IL_ALPHA			  = 0x1906
+@ilConst IL_ALPHA			 = 0x1906
 @ilConst IL_RGB              = 0x1907
 @ilConst IL_RGBA             = 0x1908
 @ilConst IL_BGR              = 0x80E0
