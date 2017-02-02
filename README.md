@@ -1,3 +1,10 @@
+[![Coverage Status](https://coveralls.io/repos/github/JuliaGL/DevIL.jl/badge.svg)](https://coveralls.io/github/JuliaGL/DevIL.jl)
+[![codecov](https://codecov.io/gh/JuliaGL/DevIL.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JuliaGL/DevIL.jl)
+
+
+[![Build Status](https://travis-ci.org/JuliaGL/DevIL.jl.svg?branch=master)](https://travis-ci.org/JuliaGL/DevIL.jl)
+[![Build status](https://ci.appveyor.com/api/projects/status/jxwo3cbl0lroxewc/branch/master?svg=true)](https://ci.appveyor.com/project/SimonDanisch/devil-jl/branch/master)
+
 # DevIL
 
 DevIL / OpenIL binding for Julia
@@ -8,7 +15,7 @@ Currently only IL is bound, ILU and ILUT are not.
 
 ## Usage
 
-For usage information & documentation please visit 
+For usage information & documentation please visit
 http://openil.sourceforge.net/
 
 ## Essentials
