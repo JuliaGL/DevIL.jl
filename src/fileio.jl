@@ -37,8 +37,8 @@ function load_(file::AbstractString; ImageType = Array)
     ilBindImage(img)
     err = Bool(ilLoadImage(String(file)))
     if !err
-        println(STDERR, "Error while loading file $file with DevIL")
-        throw_devil()
+        error("Error while loading file $file with DevIL")
+        #throw_devil()
     end
     data = getimage()
     ilDeleteImage(img)
