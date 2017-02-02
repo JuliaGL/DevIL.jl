@@ -3,3 +3,9 @@
 deps/x86*
 *.dll
 deps/deps.jl
+deps/DevIL.lib
+deps/ILU.lib
+deps/ILUT.lib
+deps/downloads/
+deps/include/
+deps/unicode/

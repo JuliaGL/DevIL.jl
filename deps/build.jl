@@ -1,7 +1,7 @@
 using BinDeps
 @BinDeps.setup
-libnames = ["devil", "libdevil1c2", "libdevil-dev"]
-libdevil = library_dependency("devil", aliases = libnames)
+libnames = ["devil", "libdevil1c2", "libdevil-dev", "DevIL"]
+libdevil = library_dependency("libdevil", aliases = libnames)
 
 # get library through Homebrew, if available
 @static if is_apple()
@@ -9,7 +9,7 @@ libdevil = library_dependency("devil", aliases = libnames)
         error("Homebrew package not installed, please run Pkg.add(\"Homebrew\")")
     end
     using Homebrew
-    provides(Homebrew.HB, "devil", libdevil, os = :Darwin)
+    provides(Homebrew.HB, "libdevil", libdevil, os = :Darwin)
 end
 
 # download a pre-compiled binary (built by GLFW)
@@ -23,19 +23,19 @@ end
     else
         error("DevIL: Unsupported Windows architecture: $(Sys.ARCH)")
     end
-    archive = string(Sys.ARCH)
-	libpath = joinpath(archive, "lib")
+    archive = "unicode"
+	libpath = ""
 	uri = URI(url)
 	provides(Binaries, uri, libdevil, unpacked_dir = archive, installed_libpath = libpath, os = :Windows)
 end
 
 @static if is_linux()
-    provides(AptGet, "libdevil1c2", libdevil)
-    provides(Pacman, "libdevil-dev", libdevil)
-    provides(Yum, "DevIL", libdevil)
+    provides(AptGet, "libdevil", libdevil)
+    provides(Pacman, "libdevil", libdevil)
+    provides(Yum, "libdevil", libdevil)
 end
 
 function main()
-    @BinDeps.install Dict("devil" => "libdevil")
+    @BinDeps.install Dict("libdevil" => "libdevil")
 end
 main() # move in function to get better stack traces
