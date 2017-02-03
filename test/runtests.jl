@@ -11,31 +11,25 @@ imgs = []
 @testset "from path" begin
     empty!(imgs)
     for path in imagepaths
-        try
-            push!(imgs, DevIL.load_(path))
-        end
+        push!(imgs, DevIL.load_(path))
     end
     @test length(imgs) == 18
 end
 @testset "from io" begin
     empty!(imgs)
     for path in imagepaths
-        try
-            push!(imgs, open(path) do io
-                DevIL.load_(io)
-            end)
-        end
+        push!(imgs, open(path) do io
+            DevIL.load_(io)
+        end)
     end
     @test length(imgs) == 18
 end
 @testset "from lump" begin
     empty!(imgs)
     for path in imagepaths
-        try
-            push!(imgs, open(path) do io
-                DevIL.load_(read(io))
-            end)
-        end
+        push!(imgs, open(path) do io
+            DevIL.load_(read(io))
+        end)
     end
     @test length(imgs) == 18
 end
