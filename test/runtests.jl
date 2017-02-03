@@ -42,28 +42,24 @@ end
 
 
 @testset "saving" begin
-    for img in imgs
-        for imformat in (format"JPEG", format"PNG")
-            tmp = Vector{UInt8}(sizeof(img))
-            @testset "to Vector{UInt8}" begin
-                try
-                    DevIL.save_(tmp, img)
-                    @test true
-                catch
-                    @test false
-                end
+    img = first(imgs)
+    for imformat in (format"JPEG", format"PNG")
+        tmp = Vector{UInt8}(sizeof(img))
+        @testset "to Vector{UInt8}" begin
+            DevIL.save_(tmp, img)
+            @test true
+        end
+        mktemp() do f, io
+            @testset "to stream" begin
+                DevIL.save_(Stream(imformat, io), img)
+                @test true
             end
-            mktemp() do f, io
-                    @testset "to stream" begin
-                        DevIL.save_(Stream(imformat, io), img)
-                    end
-                    close(io)
-                    ext = info(imformat)[2]
-                    ext = isa(ext, Vector) ? ext[1] : ext
-                    @testset "to path" begin
-                        DevIL.save_(f*ext, img)
-                    end
-                end
+            close(io)
+            ext = info(imformat)[2]
+            ext = isa(ext, Vector) ? ext[1] : ext
+            @testset "to path $imformat" begin
+                DevIL.save_(f*ext, img)
+                @test true
             end
         end
     end

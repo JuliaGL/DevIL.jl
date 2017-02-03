@@ -75,6 +75,12 @@ const colordict = Dict(
     IL_LUMINANCE => Gray,
     IL_LUMINANCE_ALPHA => GrayA
 )
+devilcolor{T<:RGB}(::Type{T}) = IL_RGB
+devilcolor{T<:RGBA}(::Type{T}) = IL_RGBA
+devilcolor{T<:BGRA}(::Type{T}) = IL_BGRA
+devilcolor{T<:BGR}(::Type{T}) = IL_BGR
+devilcolor{T<:Gray}(::Type{T}) = IL_LUMINANCE
+devilcolor{T<:GrayA}(::Type{T}) = IL_LUMINANCE_ALPHA
 const devil_colordict = Dict(zip(values(colordict), keys(colordict)))
 const pixeltypedict = Dict(
     IL_BYTE           => Int8,
@@ -122,17 +128,13 @@ end
 function devilcolor(img)
     CT = eltype(img)
     CET = eltype(CT)
-    @show CT CET
     px = get(devil_pixeltypedict, CET) do
         error("Not a supported pixel type: $CET")
     end
     if CT <: Number
         return IL_LUMINANCE, px
     end
-    color = get(devil_colordict, base_color_type(CT)) do
-        error("Not a supported colortype: $CT")
-    end
-    return color, px, length(CT)
+    return devilcolor(CT), px, length(CT)
 end
 
 typealias Color1{T}            Color{T,1}
@@ -183,10 +185,10 @@ function bind_image(img)
     end
     ctype, pixtype, bpx = devilcolor(img)
     ilTexImage(
-        size(img, 1), size(img, 2),
+        size(img, 2), size(img, 1),
         ndims(img) == 3 ? size(img, 3) : 1,
         bpx, ctype, pixtype,
-        img
+        rotr90(img)
     )
 end
 
@@ -207,12 +209,13 @@ function save_{T}(io::Stream{T}, image)
         Libc.FILE(stream(io)).ptr
     )
     ilDeleteImage(img)
-    assert_devil(err, "while saving to stream")
+    #assert_devil(err, "while saving to stream")
 end
+
 function save_(lump::Vector{UInt8}, image)
     img = newimg()
     bind_image(image)
-    err = ilSaveL(IL_JPG, Libc.FILE(stream(stream)).ptr)
+    err = ilSaveL(IL_JPG, lump, sizeof(lump))
     ilDeleteImage(img)
-    assert_devil(err, "while saving to Vector{UInt8}")
+    #assert_devil(err, "while saving to Vector{UInt8}")
 end
