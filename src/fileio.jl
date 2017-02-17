@@ -40,9 +40,17 @@ function newimg()
     img
 end
 
+function to_string(str)
+    path = @static if is_windows()
+        Cwchar_t.(Vector{UInt8}(str))
+    else
+        String(str)
+    end
+end
+
 function load_(file::AbstractString; ImageType = Array)
     img = newimg()
-    err = ilLoadImage(String(file))
+    err = ilLoadImage(to_string(file))
     assert_devil(err, "while loading $file")
     data = getimage()
     ilDeleteImage(img)
@@ -171,10 +179,10 @@ to_contiguous(A::Array) = A
 to_contiguous(A::AbstractArray) = copy(A)
 to_contiguous(A::SubArray) = copy(A)
 to_contiguous(A::BitArray) = convert(Array{N0f8}, A)
-to_contiguous(A::ColorView) = to_contiguous(channelview(A))
+#to_contiguous(A::ColorView) = to_contiguous(channelview(A))
 
 to_explicit{C<:Colorant}(A::Array{C}) = to_explicit(channelview(A))
-to_explicit{T}(A::ChannelView{T}) = to_explicit(copy!(Array{T}(size(A)), A))
+#to_explicit{T}(A::ChannelView{T}) = to_explicit(copy!(Array{T}(size(A)), A))
 to_explicit{T<:Normed}(A::Array{T}) = rawview(A)
 to_explicit{T<:AbstractFloat}(A::Array{T}) = to_explicit(convert(Array{N0f8}, A))
 
@@ -196,7 +204,7 @@ end
 function save_(file::AbstractString, image)
     img = newimg()
     bind_image(image)
-    err = ilSaveImage(file)
+    err = ilSaveImage(to_string(file))
     ilDeleteImage(img)
     assert_devil(err, "while saving $file")
 end
