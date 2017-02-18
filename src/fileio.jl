@@ -41,11 +41,7 @@ function newimg()
 end
 
 function to_string(str)
-    path = @static if is_windows()
-        Cwchar_t.(Vector{UInt8}(str))
-    else
-        String(str)
-    end
+    String(str)
 end
 
 function load_(file::AbstractString; ImageType = Array)

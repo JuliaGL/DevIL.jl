@@ -15,9 +15,15 @@ typealias ILclampd		Cdouble
 typealias ILint64		Int64
 typealias ILuint64		UInt64
 
-typealias ILchar 			Cchar
-typealias ILstring 			Ptr{Cchar}
-typealias ILconst_string 	Ptr{Cchar}
+if is_windows()
+    typealias ILchar 			Cwchar_t
+    typealias ILstring 			Cwstring
+    typealias ILconst_string 	Cwstring
+else
+    typealias ILchar 			Cchar
+    typealias ILstring 			Cstring
+    typealias ILconst_string 	Cstring
+end
 
 export ILenum, ILboolean, ILbitfield, ILbyte, ILshort, ILint, ILsizei, ILubyte, ILushort, ILuint, ILfloat, ILclampf, ILdouble, ILclampd, ILint64, ILuint64, ILchar, ILstring, ILconst_string
 
