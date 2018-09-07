@@ -1,6 +1,6 @@
-authors = ["A. Alexandrov <greyalex2003@yahoo.com>"]
 name = "DevIL"
 uuid = "eaaf24f0-b2bd-11e8-22de-f3d7c5123087"
+authors = ["A. Alexandrov <greyalex2003@yahoo.com>"]
 version = "0.5.0"
 
 [deps]
