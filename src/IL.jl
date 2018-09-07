@@ -1,23 +1,23 @@
-typealias ILenum		Cuint
-typealias ILboolean		Cuchar
-typealias ILbitfield	Cuint
-typealias ILbyte		Cchar
-typealias ILshort		Cshort
-typealias ILint			Cint
-typealias ILsizei		Csize_t
-typealias ILubyte		Cuchar
-typealias ILushort		Cushort
-typealias ILuint		Cuint
-typealias ILfloat		Cfloat
-typealias ILclampf		Cfloat
-typealias ILdouble		Cdouble
-typealias ILclampd		Cdouble
-typealias ILint64		Int64
-typealias ILuint64		UInt64
+const ILenum		= Cuint
+const ILboolean		= Cuchar
+const ILbitfield	= Cuint
+const ILbyte		= Cchar
+const ILshort		= Cshort
+const ILint			= Cint
+const ILsizei		= Csize_t
+const ILubyte		= Cuchar
+const ILushort		= Cushort
+const ILuint		= Cuint
+const ILfloat		= Cfloat
+const ILclampf		= Cfloat
+const ILdouble		= Cdouble
+const ILclampd		= Cdouble
+const ILint64		= Int64
+const ILuint64		= UInt64
 
-typealias ILchar 			Cchar
-typealias ILstring 			Ptr{Cchar}
-typealias ILconst_string 	Ptr{Cchar}
+const ILchar 		= Cchar
+const ILstring 		= Ptr{Cchar}
+const ILconst_string 	= 	Ptr{Cchar}
 
 export ILenum, ILboolean, ILbitfield, ILbyte, ILshort, ILint, ILsizei, ILubyte, ILushort, ILuint, ILfloat, ILclampf, ILdouble, ILclampd, ILint64, ILuint64, ILchar, ILstring, ILconst_string
 
@@ -350,28 +350,28 @@ export ILenum, ILboolean, ILbitfield, ILbyte, ILshort, ILint, ILsizei, ILubyte, 
 # Functions to export julia callbacks to DevIL with the proper signature
 
 # Callback functions for file reading
-typealias ILHANDLE Ptr{Void}
+ILHANDLE = Ptr{Cvoid}
 export ILHANDLE
 
-fCloseRProc(f::Function) 	= cfunction(f, Void, (ILHANDLE,))
+fCloseRProc(f::Function) 	= cfunction(f, Cvoid, (ILHANDLE,))
 fEofProc(f::Function) 		= cfunction(f, ILboolean, (ILHANDLE,))
 fGetcProc(f::Function) 		= cfunction(f, ILint, (ILHANDLE,))
 fOpenRProc(f::Function) 	= cfunction(f, ILHANDLE, (ILconst_string,))
-fReadProc(f::Function) 		= cfunction(f, ILint, (Ptr{Void}, ILuint, ILuint, ILHANDLE))
+fReadProc(f::Function) 		= cfunction(f, ILint, (Ptr{Cvoid}, ILuint, ILuint, ILHANDLE))
 fSeekRProc(f::Function) 	= cfunction(f, ILint, (ILHANDLE, ILint, ILint))
 fTellRProc(f::Function) 	= cfunction(f, ILint, (ILHANDLE,))
 
 # Callback functions for file writing
-fCloseWProc(f::Function)	= cfunction(f, Void, (ILHANDLE,))
+fCloseWProc(f::Function)	= cfunction(f, Cvoid, (ILHANDLE,))
 fOpenWProc(f::Function)		= cfunction(f, ILHANDLE, (ILconst_string,))
 fPutcProc(f::Function)      = cfunction(f, ILint, (ILubyte, ILHANDLE))
 fSeekWProc(f::Function)     = cfunction(f, ILint, (ILHANDLE, ILint, ILint))
 fTellWProc(f::Function)     = cfunction(f, ILint, (ILHANDLE,))
-fWriteProc(f::Function)     = cfunction(f, ILint, (Ptr{Void}, ILuint, ILuint, ILHANDLE))
+fWriteProc(f::Function)     = cfunction(f, ILint, (Ptr{Cvoid}, ILuint, ILuint, ILHANDLE))
 
 # Callback functions for allocation and deallocation
-mAlloc(f::Function)         = cfunction(f, Ptr{Void}, (ILsizei,))
-mFree(f::Function)          = cfunction(f, Void, (Ptr{Void},))
+mAlloc(f::Function)         = cfunction(f, Ptr{Cvoid}, (ILsizei,))
+mFree(f::Function)          = cfunction(f, Cvoid, (Ptr{Cvoid},))
 
 # Registered format procedures
 IL_LOADPROC(f::Function)	= cfunction(f, ILenum, (ILconst_string,))
@@ -384,10 +384,10 @@ IL_SAVEPROC(f::Function)	= cfunction(f, ILenum, (ILconst_string,))
 @ilFunc ilActiveMipmap(Number::ILuint)::ILboolean
 @ilFunc ilApplyPal(FileName::ILconst_string)::ILboolean
 @ilFunc ilApplyProfile(InProfile::ILstring, OutProfile::ILstring)::ILboolean
-@ilFunc ilBindImage(Image::ILuint)::Void
+@ilFunc ilBindImage(Image::ILuint)::Cvoid
 @ilFunc ilBlit(Source::ILuint, DestX::ILint, DestY::ILint, DestZ::ILint, SrcX::ILuint, SrcY::ILuint, SrcZ::ILuint, Width::ILuint, Height::ILuint, Depth::ILuint)::ILboolean
 @ilFunc ilClampNTSC()::ILboolean
-@ilFunc ilClearColour(Red::ILclampf, Green::ILclampf, Blue::ILclampf, Alpha::ILclampf)::Void
+@ilFunc ilClearColour(Red::ILclampf, Green::ILclampf, Blue::ILclampf, Alpha::ILclampf)::Cvoid
 @ilFunc ilClearImage()::ILboolean
 @ilFunc ilCloneCurImage()::ILuint
 @ilFunc ilCompressDXT(Data::Ptr{ILubyte}, Width::ILuint, Height::ILuint, Depth::ILuint, DXTCFormat::ILenum, DXTCSize::Ptr{ILuint})::Ptr{ILubyte}
@@ -395,93 +395,93 @@ IL_SAVEPROC(f::Function)	= cfunction(f, ILenum, (ILconst_string,))
 @ilFunc ilConvertImage(DestFormat::ILenum , DestType::ILenum)::ILboolean
 @ilFunc ilConvertPal(DestFormat::ILenum)::ILboolean
 @ilFunc ilCopyImage(Src::ILuint)::ILboolean
-@ilFunc ilCopyPixels(XOff::ILuint, YOff::ILuint, ZOff::ILuint, Width::ILuint, Height::ILuint, Depth::ILuint, Format::ILenum, Type::ILenum, Data::Ptr{Void})::ILuint
+@ilFunc ilCopyPixels(XOff::ILuint, YOff::ILuint, ZOff::ILuint, Width::ILuint, Height::ILuint, Depth::ILuint, Format::ILenum, Type::ILenum, Data::Ptr{Cvoid})::ILuint
 @ilFunc ilCreateSubImage(Type::ILenum, Num::ILuint)::ILuint
 @ilFunc ilDefaultImage()::ILboolean
-@ilFunc ilDeleteImage(Num::ILuint)::Void
-@ilFunc ilDeleteImages(Num::ILsizei, Images::Ptr{ILuint})::Void
+@ilFunc ilDeleteImage(Num::ILuint)::Cvoid
+@ilFunc ilDeleteImages(Num::ILsizei, Images::Ptr{ILuint})::Cvoid
 @ilFunc ilDetermineType(FileName::ILconst_string)::ILenum
 @ilFunc ilDetermineTypeF(File::ILHANDLE)::ILenum
-@ilFunc ilDetermineTypeL(Lump::Ptr{Void}, Size::ILuint)::ILenum
+@ilFunc ilDetermineTypeL(Lump::Ptr{Cvoid}, Size::ILuint)::ILenum
 @ilFunc ilDisable(Mode::ILenum)::ILboolean
 @ilFunc ilDxtcDataToImage()::ILboolean
 @ilFunc ilDxtcDataToSurface()::ILboolean
 @ilFunc ilEnable(Mode::ILenum)::ILboolean
-@ilFunc ilFlipSurfaceDxtcData()::Void
+@ilFunc ilFlipSurfaceDxtcData()::Cvoid
 @ilFunc ilFormatFunc(Mode::ILenum)::ILboolean
-@ilFunc ilGenImages(Num::ILsizei, Images::Ptr{ILuint})::Void
+@ilFunc ilGenImages(Num::ILsizei, Images::Ptr{ILuint})::Cvoid
 @ilFunc ilGenImage()::ILuint
 @ilFunc ilGetAlpha(Type::ILenum)::Ptr{ILubyte}
 @ilFunc ilGetBoolean(Mode::ILenum)::ILboolean
-@ilFunc ilGetBooleanv(Mode::ILenum, Param::Ptr{ILboolean})::Void
+@ilFunc ilGetBooleanv(Mode::ILenum, Param::Ptr{ILboolean})::Cvoid
 @ilFunc ilGetData()::Ptr{ILubyte}
-@ilFunc ilGetDXTCData(Buffer::Ptr{Void}, BufferSize::ILuint, DXTCFormat::ILenum)::ILuint
+@ilFunc ilGetDXTCData(Buffer::Ptr{Cvoid}, BufferSize::ILuint, DXTCFormat::ILenum)::ILuint
 @ilFunc ilGetError()::ILenum
 @ilFunc ilGetInteger(Mode::ILenum)::ILint
-@ilFunc ilGetIntegerv(Mode::ILenum, Param::Ptr{ILint})::Void
+@ilFunc ilGetIntegerv(Mode::ILenum, Param::Ptr{ILint})::Cvoid
 @ilFunc ilGetLumpPos()::ILuint
 @ilFunc ilGetPalette()::Ptr{ILubyte}
 @ilFunc ilGetString(StringName::ILenum)::ILconst_string
-@ilFunc ilHint(Target::ILenum, Mode::ILenum)::Void
+@ilFunc ilHint(Target::ILenum, Mode::ILenum)::Cvoid
 @ilFunc ilInvertSurfaceDxtcDataAlpha()::ILboolean
-@ilFunc ilInit()::Void
+@ilFunc ilInit()::Cvoid
 @ilFunc ilImageToDxtcData(Format::ILenum)::ILboolean
 @ilFunc ilIsDisabled(Mode::ILenum)::ILboolean
 @ilFunc ilIsEnabled(Mode::ILenum)::ILboolean
 @ilFunc ilIsImage(Image::ILuint)::ILboolean
 @ilFunc ilIsValid(Type::ILenum, FileName::ILconst_string)::ILboolean
 @ilFunc ilIsValidF(Type::ILenum, File::ILHANDLE)::ILboolean
-@ilFunc ilIsValidL(Type::ILenum, Lump::Ptr{Void}, Size::ILuint)::ILboolean
-@ilFunc ilKeyColour(Red::ILclampf, Green::ILclampf, Blue::ILclampf, Alpha::ILclampf)::Void
+@ilFunc ilIsValidL(Type::ILenum, Lump::Ptr{Cvoid}, Size::ILuint)::ILboolean
+@ilFunc ilKeyColour(Red::ILclampf, Green::ILclampf, Blue::ILclampf, Alpha::ILclampf)::Cvoid
 @ilFunc ilLoad(Type::ILenum, FileName::ILconst_string)::ILboolean
 @ilFunc ilLoadF(Type::ILenum, File::ILHANDLE)::ILboolean
 @ilFunc ilLoadImage(FileName::ILconst_string)::ILboolean
-@ilFunc ilLoadL(Type::ILenum, Lump::Ptr{Void}, Size::ILuint)::ILboolean
+@ilFunc ilLoadL(Type::ILenum, Lump::Ptr{Cvoid}, Size::ILuint)::ILboolean
 @ilFunc ilLoadPal(FileName::ILconst_string)::ILboolean
-@ilFunc ilModAlpha(AlphaValue::ILdouble)::Void
+@ilFunc ilModAlpha(AlphaValue::ILdouble)::Cvoid
 @ilFunc ilOriginFunc(Mode::ILenum)::ILboolean
 @ilFunc ilOverlayImage(Source::ILuint, XCoord::ILint, YCoord::ILint, ZCoord::ILint)::ILboolean
-@ilFunc ilPopAttrib()::Void
-@ilFunc ilPushAttrib(Bits::ILuint)::Void
-@ilFunc ilRegisterFormat(Format::ILenum)::Void
+@ilFunc ilPopAttrib()::Cvoid
+@ilFunc ilPushAttrib(Bits::ILuint)::Cvoid
+@ilFunc ilRegisterFormat(Format::ILenum)::Cvoid
 @ilFunc ilRegisterMipNum(Num::ILuint)::ILboolean
 @ilFunc ilRegisterNumFaces(Num::ILuint)::ILboolean
 @ilFunc ilRegisterNumImages(Num::ILuint)::ILboolean
-@ilFunc ilRegisterOrigin(Origin::ILenum)::Void
-@ilFunc ilRegisterPal(Pal::Ptr{Void}, Size::ILuint, Type::ILenum)::Void
-@ilFunc ilRegisterType(Type::ILenum)::Void
+@ilFunc ilRegisterOrigin(Origin::ILenum)::Cvoid
+@ilFunc ilRegisterPal(Pal::Ptr{Cvoid}, Size::ILuint, Type::ILenum)::Cvoid
+@ilFunc ilRegisterType(Type::ILenum)::Cvoid
 @ilFunc ilRemoveLoad(Ext::ILconst_string)::ILboolean
 @ilFunc ilRemoveSave(Ext::ILconst_string)::ILboolean
-@ilFunc ilResetMemory()::Void  # Deprecated
-@ilFunc ilResetRead()::Void
-@ilFunc ilResetWrite()::Void
+@ilFunc ilResetMemory()::Cvoid  # Deprecated
+@ilFunc ilResetRead()::Cvoid
+@ilFunc ilResetWrite()::Cvoid
 @ilFunc ilSave(Type::ILenum, FileName::ILconst_string)::ILboolean
 @ilFunc ilSaveF(Type::ILenum, File::ILHANDLE)::ILuint
 @ilFunc ilSaveImage(FileName::ILconst_string)::ILboolean
-@ilFunc ilSaveL(Type::ILenum, Lump::Ptr{Void}, Size::ILuint)::ILuint
+@ilFunc ilSaveL(Type::ILenum, Lump::Ptr{Cvoid}, Size::ILuint)::ILuint
 @ilFunc ilSavePal(FileName::ILconst_string)::ILboolean
 @ilFunc ilSetAlpha(AlphaValue::ILdouble)::ILboolean
-@ilFunc ilSetData(Data::Ptr{Void})::ILboolean
+@ilFunc ilSetData(Data::Ptr{Cvoid})::ILboolean
 @ilFunc ilSetDuration(Duration::ILuint)::ILboolean
-@ilFunc ilSetInteger(Mode::ILenum, Param::ILint)::Void
-@ilFunc ilSetPixels(XOff::ILint, YOff::ILint, ZOff::ILint, Width::ILuint, Height::ILuint, Depth::ILuint, Format::ILenum, Type::ILenum, Data::Ptr{Void})::Void
-@ilFunc ilSetString(Mode::ILenum, String::Ptr{Cchar})::Void
-@ilFunc ilShutDown()::Void
+@ilFunc ilSetInteger(Mode::ILenum, Param::ILint)::Cvoid
+@ilFunc ilSetPixels(XOff::ILint, YOff::ILint, ZOff::ILint, Width::ILuint, Height::ILuint, Depth::ILuint, Format::ILenum, Type::ILenum, Data::Ptr{Cvoid})::Cvoid
+@ilFunc ilSetString(Mode::ILenum, String::Ptr{Cchar})::Cvoid
+@ilFunc ilShutDown()::Cvoid
 @ilFunc ilSurfaceToDxtcData(Format::ILenum)::ILboolean
-@ilFunc ilTexImage(Width::ILuint, Height::ILuint, Depth::ILuint, NumChannels::ILubyte, Format::ILenum, Type::ILenum, Data::Ptr{Void})::ILboolean
+@ilFunc ilTexImage(Width::ILuint, Height::ILuint, Depth::ILuint, NumChannels::ILubyte, Format::ILenum, Type::ILenum, Data::Ptr{Cvoid})::ILboolean
 @ilFunc ilTexImageDxtc(w::ILint, h::ILint, d::ILint, DxtFormat::ILenum, data::Ptr{ILubyte})::ILboolean
 @ilFunc ilTypeFromExt(FileName::ILconst_string)::ILenum
 @ilFunc ilTypeFunc(Mode::ILenum)::ILboolean
 @ilFunc ilLoadData(FileName::ILconst_string, Width::ILuint, Height::ILuint, Depth::ILuint, Bpp::ILubyte)::ILboolean
 @ilFunc ilLoadDataF(File::ILHANDLE, Width::ILuint, Height::ILuint, Depth::ILuint, Bpp::ILubyte)::ILboolean
-@ilFunc ilLoadDataL(Lump::Ptr{Void}, Size::ILuint, Width::ILuint, Height::ILuint, Depth::ILuint, Bpp::ILubyte)::ILboolean
+@ilFunc ilLoadDataL(Lump::Ptr{Cvoid}, Size::ILuint, Width::ILuint, Height::ILuint, Depth::ILuint, Bpp::ILubyte)::ILboolean
 @ilFunc ilSaveData(FileName::ILconst_string)::ILboolean
 
-@ilFunc ilRegisterLoad(Ext::ILconst_string, Load::Ptr{Void})::ILboolean
-@ilFunc ilRegisterSave(Ext::ILconst_string, Save::Ptr{Void})::ILboolean
-@ilFunc ilSetMemory(Alloc::Ptr{Void}, Free::Ptr{Void})::Void
-@ilFunc ilSetRead(Open::Ptr{Void}, Close::Ptr{Void}, Eof::Ptr{Void}, Getc::Ptr{Void}, Read::Ptr{Void}, Seek::Ptr{Void}, Tell::Ptr{Void})::Void
-@ilFunc ilSetWrite(Open::Ptr{Void}, Close::Ptr{Void}, Putc::Ptr{Void}, Seek::Ptr{Void}, Tell::Ptr{Void}, Write::Ptr{Void})::Void
+@ilFunc ilRegisterLoad(Ext::ILconst_string, Load::Ptr{Cvoid})::ILboolean
+@ilFunc ilRegisterSave(Ext::ILconst_string, Save::Ptr{Cvoid})::ILboolean
+@ilFunc ilSetMemory(Alloc::Ptr{Cvoid}, Free::Ptr{Cvoid})::Cvoid
+@ilFunc ilSetRead(Open::Ptr{Cvoid}, Close::Ptr{Cvoid}, Eof::Ptr{Cvoid}, Getc::Ptr{Cvoid}, Read::Ptr{Cvoid}, Seek::Ptr{Cvoid}, Tell::Ptr{Cvoid})::Cvoid
+@ilFunc ilSetWrite(Open::Ptr{Cvoid}, Close::Ptr{Cvoid}, Putc::Ptr{Cvoid}, Seek::Ptr{Cvoid}, Tell::Ptr{Cvoid}, Write::Ptr{Cvoid})::Cvoid
 
 ilRegisterLoad(Ext::ILconst_string, Load::Function) = ilRegisterLoad(Ext, IL_LOADPROC(Load))
 ilRegisterSave(Ext::ILconst_string, Save::Function) = ilRegisterSave(Ext, IL_SAVEPROC(Save))

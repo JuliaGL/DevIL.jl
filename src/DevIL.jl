@@ -2,8 +2,10 @@ __precompile__()
 
 module DevIL
 
+import Libdl
+
 const libIL = Libdl.find_library(["libIL", "DevIL"],
-                                 ["/usr/lib/x86_64-linux-gnu", Pkg.dir("DevIL", "deps", string(Sys.ARCH))])
+                                 ["/usr/lib/x86_64-linux-gnu", joinpath(dirname(pathof(DevIL)), "..", "deps", string(Sys.ARCH))])
 
 # Stolen from getCFun macro
 macro ilFunc(cFun)
@@ -23,11 +25,16 @@ macro ilFunc(cFun)
 	cName     = cFun.args[1].args[1]
 	cSym      = Expr(:quote, cName)
 	symAndLib = :($cSym, $libIL)
-
+#=
     body       = Expr(:ccall, symAndLib, returnType, Expr(:tuple, inputTypes...), argumentNames...)
     func       = Expr(:function, Expr(:call, cName, argumentNames...), body)
 	exportExpr = Expr(:export, cName)
 	ret        = Expr(:block, func, exportExpr)
+=#
+    ret = quote
+        $cName($(argumentNames...)) = ccall($symAndLib, $returnType, ($(inputTypes...),), $(argumentNames...))
+        export $cName
+    end
 
     return esc(ret)
 end

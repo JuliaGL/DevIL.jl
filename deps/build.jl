@@ -1,4 +1,4 @@
-@static if is_windows()
+@static if Sys.iswindows()
 	ts = Int(floor(time()))
 	if Sys.ARCH == :x86_64
 		# 64-bit version is not available in an end-user package, so we download the SDK
@@ -10,18 +10,17 @@
 	else
 		error("DevIL: Unsupported Windows architecture")
 	end
-	
-	dstDir = Pkg.dir("DevIL", "deps", string(Sys.ARCH))
+
+	dstDir = string(Sys.ARCH)
 	if (!isdir(dstDir))
 		mkdir(dstDir)
 	end
 	dstFile = dstDir * "\\" * fileName
 	download(srcUrl, dstFile)
-	run(`"$JULIA_HOME\\7z.exe" e "$dstFile" *.dll -o"$dstDir" -y`)
+	run(`"$(Sys.BINDIR)\\7z.exe" e "$dstFile" *.dll -o"$dstDir" -y`)
 	rm(dstFile)
 end
 
-@static if is_linux()
+@static if Sys.islinux()
     run(`sudo apt-get install libdevil1c2`)
 end
-
