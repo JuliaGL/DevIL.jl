@@ -22,5 +22,6 @@
 end
 
 @static if Sys.islinux()
+    run(`sudo apt-get update`)
     run(`sudo apt-get install libdevil1c2`)
 end
